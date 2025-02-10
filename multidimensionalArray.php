@@ -11,7 +11,7 @@
   <body>   
         <?php
         $allStudents = [
-             ["ali" , 21 , "karachi"] ,
+             ["ali" , 21 , "karachi" ,] ,
              ["hamza" , 22 , "lahore"] ,
              ["rafiya" , 23 , "karachi" , "rafiya@gmail.com"] 
         ];
