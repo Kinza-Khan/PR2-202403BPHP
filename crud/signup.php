@@ -22,18 +22,18 @@ include('query.php');
               </div>
               <div class="form-group">
                 <label for="">Email</label>
-                <input type="text" name="uEmail" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                <!-- <small id="helpId" class="text-muted">Help text</small> -->
+                <input type="text" name="uEmail" value="<?php echo $userEmail ?>" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                <small id="helpId" class="text-danger"><?php echo $userEmailErr?></small>
               </div>
               <div class="form-group">
                 <label for="">Password</label>
-                <input type="text" name="uPassword" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                <!-- <small id="helpId" class="text-muted">Help text</small> -->
+                <input type="text" name="uPassword"  value="<?php echo $userPassword ?>" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                <small id="helpId" class="text-danger"><?php echo $userPasswordErr?></small>
               </div>
               <div class="form-group">
                 <label for="">Confirm Password</label>
-                <input type="text" name="uConfirmPassword" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                <!-- <small id="helpId" class="text-muted">Help text</small> -->
+                <input type="text" name="uConfirmPassword"  value="<?php echo $userConfirmPassword ?>" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                <small id="helpId" class="text-danger"><?php echo $userConfirmPasswordErr?></small>
               </div>
               <button name="registerUser" class="btn btn-info">Register</button>
             </form>
