@@ -41,4 +41,38 @@ if(isset($_POST['addCategory'])){
    
 
 }
+
+// update category 
+if(isset($_POST['updateCategory'])){
+    $categoryName  = $_POST['cName'];
+    $categoryDes = $_POST['cDes'];
+    $categoryId = $_GET['categoryId'];
+    if(empty($categoryName)){
+        $categoryNameErr = "name is requried";
+    }
+    if(empty($categoryDes)){
+            $categoryDesErr = "description is required" ;
+    }
+    $query = $pdo->prepare("update categories set name = :cName , description = :cDes where id = :cId");
+
+    if(!empty($_FILES['cImage']['name'])){
+            $categoryImageName = $_FILES['cImage']['name'];
+            $categoryImageTmpName = $_FILES['cImage']['tmp_name'];
+            $extension = pathinfo($categoryImageName,PATHINFO_EXTENSION);
+            $destination = "images/".$categoryImageName ;
+            $format = ["jpg" , "png" , "jpeg" ,"webp"];
+            if(!in_array($extension,$format)){
+                $categoryImageNameErr = "Invalid extension";
+            }
+           
+
+    }
+
+
+    $query->bindParam('cName',$categoryName);
+    $query->bindParam('cDes',$categoryDes);
+    $query->bindParam('cId',$categoryId);
+    $query->execute();
+
+}
 ?>
