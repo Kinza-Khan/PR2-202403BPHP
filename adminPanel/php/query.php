@@ -54,25 +54,34 @@ if(isset($_POST['updateCategory'])){
             $categoryDesErr = "description is required" ;
     }
     $query = $pdo->prepare("update categories set name = :cName , description = :cDes where id = :cId");
-
     if(!empty($_FILES['cImage']['name'])){
             $categoryImageName = $_FILES['cImage']['name'];
             $categoryImageTmpName = $_FILES['cImage']['tmp_name'];
             $extension = pathinfo($categoryImageName,PATHINFO_EXTENSION);
             $destination = "images/".$categoryImageName ;
             $format = ["jpg" , "png" , "jpeg" ,"webp"];
-            if(!in_array($extension,$format)){
-                $categoryImageNameErr = "Invalid extension";
+            if(in_array($extension,$format)){
+                    if(move_uploaded_file($categoryImageTmpName,$destination)){
+                        $query = $pdo->prepare("update categories set name = :cName , description = :cDes ,image = :cImage where id = :cId");
+                        $query->bindParam('cImage',$categoryImageName);
+                    }
             }
-           
-
+            else{
+                $categoryImageNameErr = "Invalid extension";
+            }          
     }
-
-
     $query->bindParam('cName',$categoryName);
     $query->bindParam('cDes',$categoryDes);
     $query->bindParam('cId',$categoryId);
     $query->execute();
 
+}
+// delete Category 
+if(isset($_GET['cId'])){
+    $cId = $_GET['cId'];
+    $query = $pdo->prepare("delete from categories where id = :cId");
+    $query->bindParam('cId',$cId);
+    $query->execute();
+    echo "<script>alert('category deleted');location.assign('viewCategory.php')</script>";
 }
 ?>

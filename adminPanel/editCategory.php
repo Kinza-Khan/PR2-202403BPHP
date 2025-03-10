@@ -36,7 +36,7 @@ if(isset($_GET['categoryId'])){
                                 <label for="formFile" class="form-label">Category Image</label>
                                 <input name="cImage" class="form-control" type="file" id="formFile">
                                 <img height="100px" src="images/<?php echo $category['image']?>" alt="">
-                               
+                               <small class="text-danger"><?php echo $categoryImageNameErr?></small>
                             </div>
                           
                             <div class="form-floating">
