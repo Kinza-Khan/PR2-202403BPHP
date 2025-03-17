@@ -84,4 +84,54 @@ if(isset($_GET['cId'])){
     $query->execute();
     echo "<script>alert('category deleted');location.assign('viewCategory.php')</script>";
 }
+// add product Work
+$productName =  $productDes = $productPrice  =  $productQty =  $categoryId =  $productImageName ="";
+$productNameErr =  $productDesErr = $productPriceErr  =  $productQtyErr =  $categoryIdErr =  $productImageNameErr ="";
+
+if(isset($_POST['addProduct'])){
+    $productName = $_POST['pName'];
+    $productDes = $_POST['pDes'];
+    $productPrice = $_POST['pPrice'];
+    $productQty = $_POST['pQty'];
+    $categoryId = $_POST['categoryId'];
+    $productImageName = $_FILES['pImage']['name'];
+    $productImageTmpName = $_FILES['pImage']['tmp_name'];
+    $extension = pathinfo($productImageName,PATHINFO_EXTENSION);
+    $destination =  "images/".$productImageName ;
+    $categoryImageSize = $_FILES['pImage']['size'];
+    if(empty($productName)){
+        $productNameErr = "Product Name is Required";
+    }
+    if(empty($productImageName)){
+        $productImageNameErr = "product Image is Required";
+    }
+    else{
+        $format = ["jpg" , "png" , "jpeg" , "webp"] ;
+        if(!in_array($extension,$format)){
+            $productImageNameErr = "invalid Extension";
+        }
+    }
+    if(empty($productDes)){
+        $productDesErr = "product Description is Required";
+    }      
+    if(empty($productNameErr) && empty($productImageNameErr) && empty($productDesErr)){
+            if(move_uploaded_file($productImageTmpName,$destination)){
+                    $query = $pdo->prepare("insert into products(name , description, image ,price, qty , c_id) values (:pName , :pDes , :pImage , :pPrice , :pQty , :cId )");
+                    $query->bindParam('pName',$productName);
+                    $query->bindParam('pDes',$productDes);
+                    $query->bindParam('pImage',$productImageName);
+                    $query->bindParam('pPrice',$productPrice);
+                    $query->bindParam('pQty',$productQty);
+                    $query->bindParam('cId',$categoryId);
+                    $query->execute();
+                    echo "<script>alert('product added');location.assign('addProduct.php')</script>";
+
+            }
+    }
+  
+
+   
+
+}
+
 ?>
