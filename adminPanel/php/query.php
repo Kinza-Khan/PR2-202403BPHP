@@ -133,5 +133,54 @@ if(isset($_POST['addProduct'])){
    
 
 }
+// update product
+if(isset($_POST['updateProduct'])){
+    $productName = $_POST['pName'];
+    $productDes = $_POST['pDes'];
+    $productPrice = $_POST['pPrice'];
+    $productQty = $_POST['pQty'];
+    $categoryId = $_POST['categoryId'];
+    $productId = $_GET['productId'];
+    if(empty($productName)){
+        $productNameErr = "Product Name is Required";
+    }
+    if(empty($productImageName)){
+        $productImageNameErr = "product Image is Required";
+    }
+    else{
+        $format = ["jpg" , "png" , "jpeg" , "webp"] ;
+        if(!in_array($extension,$format)){
+            $productImageNameErr = "invalid Extension";
+        }
+    }
+    if(empty($productDes)){
+        $productDesErr = "product Description is Required";
+    }      
+    $query = $pdo->prepare("update products set name = :pName , description = :pDes , price = :pPrice , qty = :pQty , c_id = :cId where id = :pId");
+    if(!empty($_FILES['pImage']['name'])){
+            $productImageName = $_FILES['pImage']['name'];
+            $productImageTmpName = $_FILES['pImage']['tmp_name'];
+            $extension = pathinfo($productImageName,PATHINFO_EXTENSION);
+            $destination = "images/".$productImageName ;
+            $format = ["jpg" , "png" , "jpeg" ,"webp"];
+            if(in_array($extension,$format)){
+                    if(move_uploaded_file($productImageTmpName,$destination)){
+                        $query = $pdo->prepare("update products set name = :pName , description = :pDes , price = :pPrice , qty = :pQty , c_id = :cId ,image = :pImage where id = :pId");
+                        $query->bindParam('pImage',$productImageName);
+                    }
+            }
+            else{
+                $productImageNameErr = "Invalid extension";
+            }          
+    }
+                    $query->bindParam('pName',$productName);
+                    $query->bindParam('pDes',$productDes);
+                    $query->bindParam('pPrice',$productPrice);
+                    $query->bindParam('pQty',$productQty);
+                    $query->bindParam('cId',$categoryId);
+                    $query->bindParam('pId',$productId);
+                    $query->execute();
+                    echo "<script>alert('product updated');location.assign('viewProduct.php')</script>";
 
+}
 ?>
