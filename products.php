@@ -2,9 +2,8 @@
 include("php/query.php");
 include("components/header.php");
 ?>
-	
 
-	
+
 	<!-- Product -->
 	<div class="bg0 m-t-23 p-b-140">
 		<div class="container p-5 mt-5">
@@ -32,7 +31,7 @@ include("components/header.php");
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.php?id=<?php echo $product['id']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 								<?php echo $product['name']?>
 								</a>
 
