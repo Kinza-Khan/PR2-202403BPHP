@@ -2,8 +2,6 @@
 include("php/query.php");
 include("components/header.php");
 ?>
-
-
 	<!-- Product -->
 	<div class="bg0 m-t-23 p-b-140">
 		<div class="container p-5 mt-5">
