@@ -34,6 +34,17 @@ if(isset($_GET['remove'])){
 	}
 	
 }
+
+
+if(isset($_POST['qtyIncDec'])){
+	$proId = $_POST['productId'];
+	$proQty = $_POST['productQty'];
+	foreach($_SESSION['cart'] as $key => $value){
+		if($value['productId'] == $proId){
+			$_SESSION['cart'][$key]['productQty'] = $proQty ;
+		}	
+	}
+}
 ?>
 	<!-- breadcrumb -->
 	<div class="container">
@@ -78,22 +89,22 @@ if(isset($_GET['remove'])){
 										<div class="how-itemcart1">
 											<img src="adminPanel/images/<?php echo $value['productImage']?>" alt="IMG">
 										</div>
-									</td>
-									<td class="column-2"><?php echo $value['productName']?></td>
-									<td class="column-3">$ <?php echo $value['productPrice']?></td>
-									<td class="column-4">
-										<div class="wrap-num-product flex-w m-l-auto m-r-0">
-											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-minus"></i>
-											</div>
+							</td>
+							<td class="column-2"><?php echo $value['productName']?></td>
+							<td class="column-3">$ <?php echo $value['productPrice']?></td>
+						<td class="column-4">
+					<div class="wrap-num-product flex-w m-l-auto m-r-0 qtyBox">
+						<input type="hidden" class="pId" value="<?php echo $value['productId']?>">
+					<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m dec">
+						<i class="fs-16 zmdi zmdi-minus"></i>
+						</div>
 
-											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product2" value="<?php echo $value['productQty']?>">
-
-											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-plus"></i>
-											</div>
-										</div>
-									</td>
+					<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product2" value="<?php echo $value['productQty']?>">
+               <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m inc">
+								<i class="fs-16 zmdi zmdi-plus"></i>
+							</div>
+							</div>
+								</td>
 									<td class="column-5">$<?php echo $value['productQty']*$value['productPrice']?></td>
 									<td class="column-6"><a href="?remove=<?php echo $value['productId']?>" class="btn btn-danger">Remove</a></td>
 								</tr>
