@@ -209,10 +209,22 @@ if(isset($_POST['qtyIncDec'])){
 								</span>
 							</div>
 						</div>
-
-						<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+									<?php
+									if(isset($_SESSION['userEmail'])){
+									?>
+						<button name="checkout" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
 							Proceed to Checkout
 						</button>
+						<?php
+						}
+						else{
+							?>
+							<a href="login.php" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+							Proceed to Checkout
+						</a>
+							<?php
+						}
+						?>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,5 @@
 <?php
-include('query.php');
+include('php/query.php');
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,11 +15,7 @@ include('query.php');
   <body>
       <div class="container p-5 mt-5">
             <form action="" method="post">
-              <div class="form-group">
-                <label for="">Name</label>
-                <input type="text" value="<?php echo $userName?>" name="uName" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                <small id="helpId" class="text-danger"><?php echo $userNameErr?></small>
-              </div>
+             
               <div class="form-group">
                 <label for="">Email</label>
                 <input type="text" name="uEmail" value="<?php echo $userEmail ?>" id="" class="form-control" placeholder="" aria-describedby="helpId">
@@ -30,12 +26,8 @@ include('query.php');
                 <input type="text" name="uPassword"  value="<?php echo $userPassword ?>" id="" class="form-control" placeholder="" aria-describedby="helpId">
                 <small id="helpId" class="text-danger"><?php echo $userPasswordErr?></small>
               </div>
-              <div class="form-group">
-                <label for="">Confirm Password</label>
-                <input type="text" name="uConfirmPassword"  value="<?php echo $userConfirmPassword ?>" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                <small id="helpId" class="text-danger"><?php echo $userConfirmPasswordErr?></small>
-              </div>
-              <button name="registerUser" class="btn btn-info">Register</button>
+             
+              <button name="userLogin" class="btn btn-info">Login</button>
             </form>
       </div>
      </body>

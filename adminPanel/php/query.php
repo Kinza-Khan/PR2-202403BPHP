@@ -1,5 +1,6 @@
 <?php
 include("dbcon.php");
+session_start();
 $categoryName =  $categoryDes =  $categoryImageName = "" ;
 $categoryNameErr =  $categoryDesErr =  $categoryImageNameErr = "" ;
 if(isset($_POST['addCategory'])){

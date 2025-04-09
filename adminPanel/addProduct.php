@@ -2,6 +2,10 @@
 <?php
 include("php/query.php");
 include("components/header.php");
+if(!isset($_SESSION['adminEmail'])){
+    echo "<script>location.assign('../login.php')</script>"; 
+}
+
 ?>
             <!-- Blank Start -->
             <div class="container-fluid pt-4 px-4">
