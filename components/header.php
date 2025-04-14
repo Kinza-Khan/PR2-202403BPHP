@@ -53,13 +53,26 @@
 							Help & FAQs
 						</a>
 
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							My Account
+						<?php
+						if(isset($_SESSION['userEmail'])){
+						?>
+						<a href="#" class="flex-c-m p-lr-10 trans-04">
+							<?php echo $_SESSION['userName']?>
 						</a>
+						<a href="logout.php" class="flex-c-m p-lr-10 trans-04">
+							Logout
+						</a>
+						<?php
+						}else
+						{
+						?>
 
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							EN
+						<a href="login.php" class="flex-c-m trans-04 p-lr-25">
+						Login
 						</a>
+						<?php
+						}
+						?>
 
 						<a href="#" class="flex-c-m trans-04 p-lr-25">
 							USD
@@ -116,7 +129,13 @@
 							<i class="zmdi zmdi-search"></i>
 						</div>
 
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<?php
+						$count = 0 ;
+						if(isset($_SESSION['cart'])){
+							$count = count($_SESSION['cart']);
+						}
+						echo $count ;
+						?>">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 
@@ -173,11 +192,15 @@
 						<a href="#" class="flex-c-m p-lr-10 trans-04">
 							Help & FAQs
 						</a>
-
+						<?php
+						if(isset($_SESSION['userEmail'])){
+						?>
 						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							My Account
+							<?php echo $_SESSION['userName']?>
 						</a>
-
+						<?php
+						}
+						?>
 						<a href="#" class="flex-c-m p-lr-10 trans-04">
 							EN
 						</a>
@@ -248,14 +271,16 @@
 		<div class="header-cart flex-col-l p-l-65 p-r-25">
 			<div class="header-cart-title flex-w flex-sb-m p-b-8">
 				<span class="mtext-103 cl2">
-					Your Cart
+					Your Carttttttttt
 				</span>
 
 				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
 					<i class="zmdi zmdi-close"></i>
 				</div>
 			</div>
-			
+			<?php
+			if(isset($_SESSION['cart'])){
+			?>				
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full">
 					<li class="header-cart-item flex-w flex-t m-b-12">
@@ -305,6 +330,8 @@
 							</span>
 						</div>
 					</li>
+
+					
 				</ul>
 				
 				<div class="w-full">
@@ -323,5 +350,13 @@
 					</div>
 				</div>
 			</div>
+			<?php
+			}
+			else{
+				?>
+					<h1>Your Cart is empty</h1>
+				<?php
+			}
+			?>
 		</div>
 	</div>

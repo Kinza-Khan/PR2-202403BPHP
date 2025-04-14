@@ -14,12 +14,12 @@ if(isset($_POST['addToCart'])){
 		else{
 			$count = count($_SESSION['cart']);
 			$_SESSION['cart'][$count] =  array("productId"=>$_POST['pId'],"productName"=>$_POST['pName'],"productPrice"=>$_POST['pPrice'],"productImage"=>$_POST['pImage'],"productQty"=>$_POST['num-product']);
-			echo "<script>alert('product added successfully')</script>";
+			echo "<script>alert('product added successfully');location.assign('shoping-cart.php')</script>";
 		}
 	}
 	else{
 		$_SESSION['cart'][0] = array("productId"=>$_POST['pId'],"productName"=>$_POST['pName'],"productPrice"=>$_POST['pPrice'],"productImage"=>$_POST['pImage'],"productQty"=>$_POST['num-product']);
-		echo "<script>alert('product added successfully')</script>";
+		echo "<script>alert('product added successfully');location.assign('shoping-cart.php')</script>";
 	}
 }
 // remove product from session
@@ -45,9 +45,47 @@ if(isset($_POST['qtyIncDec'])){
 		}	
 	}
 }
+
+// checkout work
+
+if(isset($_POST['checkout'])){
+	$uId = $_SESSION['userId'];
+	$uName = $_SESSION['userName'];
+	$uEmail = $_SESSION['userEmail'];
+	foreach($_SESSION['cart'] as $key => $value){
+			$pId = $value['productId'];
+			$pName = $value['productName'];
+			$pPrice = $value['productPrice'];
+			$pQty= $value['productQty'];
+			$query = $pdo->prepare("insert into orders (u_id ,u_name , u_email , p_id ,p_name , p_price , p_qty) values (:u_id ,:u_name , :u_email , :p_id ,:p_name , :p_price , :p_qty)");
+			$query->bindParam('u_id',$uId);
+			$query->bindParam('u_name',$uName);
+			$query->bindParam('u_email',$uEmail);
+			$query->bindParam('p_id',$pId);
+			$query->bindParam('p_name',$pName);
+			$query->bindParam('p_price',$pPrice);
+			$query->bindParam('p_qty',$pQty);
+			$query->execute();
+	}
+	$totalQty = 0 ; 
+	$totalPrice = 0 ;
+	foreach($_SESSION['cart'] as $value){
+		$totalPrice += $value['productPrice']*$value['productQty'];
+		$totalQty += $value['productQty'];
+	}
+	$invoiceQuery = $pdo->prepare("insert into invoices (u_id ,u_name , u_email ,  total_price , total_qty) values (:u_id ,:u_name , :u_email ,  :t_price , :t_qty)");
+	$invoiceQuery->bindParam('u_id',$uId);
+	$invoiceQuery->bindParam('u_name',$uName);
+	$invoiceQuery->bindParam('u_email',$uEmail);
+	$invoiceQuery->bindParam('t_price',$totalPrice);
+	$invoiceQuery->bindParam('t_qty',$totalQty);
+	$invoiceQuery->execute();
+	echo "<script>alert('order added');location.assign('index.php')</script>";
+	unset($_SESSION['cart']);		
+}
 ?>
 	<!-- breadcrumb -->
-	<div class="container">
+	<div class="container mt-5 p-5">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
 			<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
 				Home
@@ -62,7 +100,11 @@ if(isset($_POST['qtyIncDec'])){
 		
 
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85">
+
+	<?php
+	if(isset($_SESSION['cart'])){
+	?>
+	<form method="post" class="bg0 p-t-75 p-b-85">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -230,7 +272,14 @@ if(isset($_POST['qtyIncDec'])){
 			</div>
 		</div>
 	</form>
-		
+		<?php
+	}
+	else{
+		?>
+		<h1 class="px-4 py-5" >Your Cart is Empty</h1>
+		<?php
+	}
+		?>
 	
 		
 
